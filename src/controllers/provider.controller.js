@@ -55,7 +55,6 @@ module.exports = {
     },
     async login(req, res) {
         try {
-            // res.json(provider.val());
             const {
                 username,
                 password
@@ -66,24 +65,80 @@ module.exports = {
                 });
             }
             const provider = await db.ref('providers').orderByChild('username').equalTo(username).once('value');
-            const isMatch = await bcrypt.compare(password, provider.val().password);
-            if (isMatch) {
-                res.json({
-                    message: 'Login successful',
-                });
+            const providerData = provider.val();
+            if (providerData) {
+                const list = Object.values(providerData);
+                const provider = list[0];
+                const isMatch = await bcrypt.compare(password, provider.password);
+                if (isMatch) {
+                    const token = sign({
+                        id: provider.id,
+                        username: provider.username,
+                        role: provider.role
+                    }, process.env.JWT_SECRET, {
+                        expiresIn: '1h'
+                    });
+                    return res.status(200).json({
+                        message: 'Login successful',
+                        token,
+                        id: provider.id,
+                        username: provider.username,
+                        password: provider.password,
+                        email: provider.email,
+                        phone: provider.phone,
+                        role: provider.role
+                    });
+                } else {
+                    return res.status(400).json({
+                        message: 'Password is incorrect'
+                    });
+                }
             } else {
                 return res.status(400).json({
-                    message: 'Password is incorrect'
+                    message: 'Username is incorrect'
                 });
             }
 
         } catch (error) {
-            res.status(400).json({
+            return res.status(500).json({
+                // message: 'Something went wrong',
                 message: error.message
             });
         }
-
-
+    },
+    async list(req, res) {
+        const providers = await db.ref('providers').once('value');
+        const providersData = providers.val();
+        if (providersData) {
+            const providersList = Object.keys(providersData).map(key => ({
+                id: key,
+                ...providersData[key]
+            }));
+            res.status(200).json({
+                message: 'Providers listed successfully',
+                data: providersList
+            });
+        } else {
+            res.status(200).json({
+                message: 'No providers found'
+            });
+        }
+    },
+    async get(req, res) {
+        const {
+            id
+        } = req.params;
+        const provider = await db.ref(`providers/${id}`).once('value');
+        if (provider.val()) {
+            res.status(200).json({
+                message: 'Provider retrieved successfully',
+                data: provider.val()
+            });
+        } else {
+            res.status(404).json({
+                message: 'Provider not found'
+            });
+        }
     },
     async update(req, res) {
         const {
@@ -140,40 +195,7 @@ module.exports = {
             message: 'Provider deleted'
         });
     },
-    async list(req, res) {
-        const providers = await db.ref('providers').once('value');
-        const providersData = providers.val();
-        if (providersData) {
-            const providersList = Object.keys(providersData).map(key => ({
-                id: key,
-                ...providersData[key]
-            }));
-            res.status(200).json({
-                message: 'Providers listed successfully',
-                data: providersList
-            });
-        } else {
-            res.status(200).json({
-                message: 'No providers found'
-            });
-        }
-    },
-    async get(req, res) {
-        const {
-            id
-        } = req.params;
-        const provider = await db.ref(`providers/${id}`).once('value');
-        if (provider.val()) {
-            res.status(200).json({
-                message: 'Provider retrieved successfully',
-                data: provider.val()
-            });
-        } else {
-            res.status(404).json({
-                message: 'Provider not found'
-            });
-        }
-    }
+
 
 
 }

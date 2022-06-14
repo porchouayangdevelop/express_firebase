@@ -1,27 +1,17 @@
-const {
-    mongoose,
-    Schema
-} = require('mongoose');
-
-const userSchema = new Schema({
-    username: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true
-    },
-    role: {
-        type: String,
-        required: true
+class User {
+    constructor(name, email, password, createdAt, updatedAt) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        return this;
     }
-}, {
-    timestamps: true
-});
+}
 
-module.exports = mongoose.model('User', userSchema);
+const save = async (user) => {
+    const userRef = await db.ref(`users/${user.id}`).set(user);
+    return userRef;
+}
+
+User.save = save;

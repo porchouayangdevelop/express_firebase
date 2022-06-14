@@ -23,11 +23,16 @@
       <h4>Create PROVIDERS</h4>
       <fd-field-set>
         <fd-form-item label="Provider Name">
-          <fd-input v-model="provider.name" placeholder="Name" />
+          <fd-input v-model="provider.username" placeholder="Name" />
         </fd-form-item>
+        <fd-form-item label="Provider Email">
+          <fd-input v-model="provider.password" type="password" placeholder="Password" />
+        <fd-form-item label="Provider Email">
+          <fd-input v-model="provider.email" placeholder="Email" />
         <fd-form-item label="Provider Email">
           <fd-input type="number" v-model="provider.phone" required placeholder="Phone" />
         </fd-form-item>
+        <fd-
         <fd-form-item>
           <fd-button
             @click="Submit"
@@ -45,7 +50,7 @@
         <fd-tile v-for="(provider,i) in providers" :key="i">
           <fd-tile-content>
             <fd-tile-title>
-              <h4>Name : {{provider.name}}</h4>
+              <h4>Name : {{provider.username}}</h4>
             </fd-tile-title>
             <fd-tile-subtitle>
               <h4>Phone : {{provider.phone}}</h4>
@@ -61,8 +66,6 @@
             styling="filled" 
             ></fd-button
           >
-         
-          
         </fd-tile>
       </div>
     </div>

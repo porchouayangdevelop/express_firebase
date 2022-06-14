@@ -52,10 +52,14 @@ app.use((req, res, next) => {
 // routes
 const users = require('./routes/user.routes');
 const providers = require('./routes/provider.routes');
+const vendors = require('./routes/vendor.routes');
+const vendorRealtime = require('./routes/vendor.realtime.routes');
 
 // use routes
 app.use('/users', users);
 app.use('/providers', providers);
+app.use('/vendors', vendors);
+app.use('/vendor-realtime', vendorRealtime);
 
 app.use('', (req, res) => {
     res.render('/src/public/index.html');
