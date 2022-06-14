@@ -1,11 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const {
-    async
-} = require('@firebase/util');
-const app = express();
 const morgan = require('morgan');
+const session = require('express-session');
+const helmet = require('helmet');
+const compression = require('compression');
+const app = express();
+require('dotenv').config();
 
 // middleware
 app.use(cors());
@@ -14,6 +15,17 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 app.use(morgan('dev'));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 * 2
+    }
+}));
+app.use(helmet());
+app.use(compression());
+
 
 // static files
 app.use(express.static('src/public'));
@@ -62,7 +74,13 @@ app.use('/vendors', vendors);
 app.use('/vendor-realtime', vendorRealtime);
 
 app.use('', (req, res) => {
-    res.render('/src/public/index.html');
+    try {
+        res.render('/src/public/index.html');
+    } catch (error) {
+        res.status(500).json({
+            message: error.message
+        });
+    }
 });
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
