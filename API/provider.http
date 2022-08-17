@@ -1,0 +1,50 @@
+###
+GET {{hostname}}/providers HTTP/1.1
+Content-Type: application/json
+
+###
+GET {{hostname}}/providers/-N7zHrOspZfhkFYu0yao HTTP/1.1
+Content-Type: application/json
+
+###
+POST {{hostname}}/providers HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstname":"Miss Davone",
+    "lastname":"XIONG",
+    "phone":"91209991",
+    "email":"davone@gmail.com",
+    "username":"davone",
+    "password":"123456",
+    "role":"staff",
+    "vendor":"-N4bxDYgKVRHpmPz2hqw"
+}
+
+###
+PUT {{hostname}}/providers/-N8DGVofqb2rEBhViwfj HTTP/1.1
+Content-Type: application/json
+
+{
+    "firstname":"Miss Davone",
+    "lastname":"XIONG",
+    "phone":"91209991",
+    "email":"davonexiong@gmail.com",
+    "username":"davone",
+    "password":"123456",
+    "role":"staff",
+    "vendor":"-N4bxDYgKVRHpmPz2hqw"
+}
+
+###
+POST {{hostname}}/providers/login HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"davone",
+    "password":"123456"
+}
+
+###
+DELETE  {{hostname}}/providers/-N7zHrOspZfhkFYu0yao HTTP/1.1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImRhdm9uZSIsInJvbGUiOiJzdGFmZiIsImlhdCI6MTY1OTE5NDYwOCwiZXhwIjoxNjU5MTk4MjA4fQ.9O7LDWnYa0gJ-y2DDKrjZJ1eYMYojB4kDVip5r_DNEU

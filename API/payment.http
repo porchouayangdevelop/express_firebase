@@ -1,0 +1,33 @@
+###
+GET {{hostname}}/payment HTTP/1.1
+Content-Type: application/json
+
+###
+POST {{hostname}}/payment HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "100",
+  "description": "USD",
+  "total": "29.99",
+  "person":""
+}
+
+###
+GET {{hostname}}/payment/-N8C8935TjBt0DxbLmP5 HTTP/1.1
+Content-Type: application/json
+
+###
+DELETE {{hostname}}/payment/-N8C8935TjBt0DxbLmP5 HTTP/1.1
+Content-Type: application/json
+
+###
+PUT {{hostname}}/payment/-N8C8935TjBt0DxbLmP5 HTTP/1.1
+Content-Type: application/json
+
+{
+  "title": "100",
+  "description": "USD",
+  "total": "250000",
+  "person":""
+}
