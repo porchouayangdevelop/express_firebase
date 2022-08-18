@@ -5,7 +5,14 @@ require('dotenv').config();
 // start server
 const port = process.env.PORT || 3000;
 
-app.use('', (req, res, next) => {
+app.use('', (err, req, res, next) => {
+    if (err) {
+        return res.status(500).json({
+            error: err.message
+
+        });
+
+    }
     res.status(200).json({
         status: 200,
         Request: {
@@ -33,9 +40,8 @@ app.use((req, res, next) => {
 
 // error handling
 app.use((err, req, res, next) => {
-    console.error(err.stack);
     res.status(500).send({
-        message: 'Something broke!',
+        message: `Something broke || server internal error, Please try again later... `,
         error: err
     })
 });
