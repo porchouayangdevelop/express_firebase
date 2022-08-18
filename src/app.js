@@ -8,7 +8,7 @@ const compression = require('compression');
 const app = express();
 require('dotenv').config();
 
-// middleware
+// middlewaregi
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

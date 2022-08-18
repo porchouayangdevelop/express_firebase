@@ -1,7 +1,4 @@
 const {
-    snapshotConstructor
-} = require('firebase-functions/v1/firestore');
-const {
     realtimeDB
 } = require('../config/firebase');
 const db = realtimeDB;
