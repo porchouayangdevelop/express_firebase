@@ -4,9 +4,24 @@ require('dotenv').config();
 
 // start server
 const port = process.env.PORT || 3000;
+
+app.use('', (req, res, next) => {
+    res.status(200).json({
+        status: 200,
+        Request: {
+            method: 'GET',
+            url: `http://localhost:${port}`
+        },
+        Response: {
+            message: `Welcome to My Rest API `,
+        }
+    })
+})
+
 app.listen(port, () => {
     console.log(`Server started on port http://localhost:${port}`);
 });
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
